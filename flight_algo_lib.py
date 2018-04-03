@@ -86,9 +86,9 @@ def goto_position_target_local_ned(north, east, down):
     vehicle.send_mavlink(msg)
 
 
-goto_position_target_local_ned(5,5,5)
-goto_position_target_local_ned(5,-5,5)
-goto_position_target_local_ned(-5,-5,5)
-goto_position_target_local_ned(-5,5,5)
-goto_position_target_local_ned(5,5,5)
+goto_position_target_local_ned(5,5,-5)
+goto_position_target_local_ned(5,-5,-5)
+goto_position_target_local_ned(-5,-5,-5)
+goto_position_target_local_ned(-5,5,-5)
+goto_position_target_local_ned(5,5,-5)
 
