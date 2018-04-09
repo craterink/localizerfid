@@ -5,7 +5,7 @@ from __future__ import print_function
 from dronekit import connect, VehicleMode, LocationGlobalRelative, LocationGlobal, Command
 import time
 import math
-import flight_algo_lib
+import flight_algo_lib as fal
 from pymavlink import mavutil
 
 
@@ -33,17 +33,17 @@ vehicle.channels.overrides = {'5':None, '6':None,'3':0}
 #print(" Channel overrides: %s" % vehicle.channels.overrides) 
 
 
-arm_and_takeoff(vehicle, 10)
+fal.arm_and_takeoff(vehicle, 10)
 print("Set default/target airspeed to 10")
 vehicle.airspeed = 10
 
 print("Going towards first point for 5 seconds ...")
 point1 = LocationGlobalRelative(30.384754, -97.730244, 10)
-vehicle.goto(vehicle, point1)
+fal.simple_gotoloc(vehicle, point1,5)
 
 print("Going to the second point for 5 seconds ...")
 point2 = LocationGlobalRelative(30.384462, -97.730701, 10)
-vehicle.goto(vehicle, point2)
+fal.simple_gotoloc(vehicle, point2,5)
 
 print("Returning to Launch")
 vehicle.mode = VehicleMode("RTL")

@@ -265,7 +265,7 @@ def simple_gotoloc(vehicle, loc, thresh):
             break;
         time.sleep(2)
 
-def goto(vehicle, dNorth, dEast, gotoFunction=vehicle.simple_goto):
+def goto(vehicle, dNorth, dEast, gotoFunction):
     """
     Moves the vehicle to a position dNorth metres North and dEast metres East of the current position.
     The method takes a function pointer argument with a single `dronekit.lib.LocationGlobal` parameter for 
@@ -273,7 +273,9 @@ def goto(vehicle, dNorth, dEast, gotoFunction=vehicle.simple_goto):
     By default it uses the standard method: dronekit.lib.Vehicle.simple_goto().
     The method reports the distance to target every two seconds.
     """
-    
+    if gotoFunction==None:
+        gotoFunction = vehicle.simple_goto
+
     currentLocation = vehicle.location.global_relative_frame
     targetLocation = get_location_metres(currentLocation, dNorth, dEast)
     targetDistance = get_distance_metres(currentLocation, targetLocation)
