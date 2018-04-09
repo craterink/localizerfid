@@ -39,11 +39,11 @@ vehicle.airspeed = 10
 
 print("Going towards first point for 5 seconds ...")
 point1 = LocationGlobalRelative(30.384754, -97.730244, 10)
-vehicle.goto(vehicle, point1)
+vehicle.simple_gotoloc(vehicle, point1,5)
 
 print("Going to the second point for 5 seconds ...")
 point2 = LocationGlobalRelative(30.384462, -97.730701, 10)
-vehicle.goto(vehicle, point2)
+vehicle.simple_gotoloc(vehicle, point2,5)
 
 print("Returning to Launch")
 vehicle.mode = VehicleMode("RTL")
