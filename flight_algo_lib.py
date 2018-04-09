@@ -58,7 +58,6 @@ The set of commands demonstrated here include:
 The full set of available commands are listed here:
 http://dev.ardupilot.com/wiki/copter-commands-in-guided-mode/
 """
-
 def condition_yaw(vehicle, heading, relative=False):
     """
     Send MAV_CMD_CONDITION_YAW message to point vehicle at a specified heading (in degrees).
@@ -368,9 +367,15 @@ def send_global_velocity(vehicle, velocity_x, velocity_y, velocity_z, duration):
         velocity_z, # Z velocity in NED frame in m/s
         0, 0, 0, # afx, afy, afz acceleration (not supported yet, ignored in GCS_Mavlink)
         0, 0)    # yaw, yaw_rate (not supported yet, ignored in GCS_Mavlink) 
-
     # send command to vehicle on 1 Hz cycle
     for x in range(0,duration):
         vehicle.send_mavlink(msg)
         time.sleep(1)    
+
+def failsafe_callback(self, attr_name, attribute_value)
+    #checks if mode has been changed (lose control if so)
+
+    val = self.channel['5']
+    while val > 1620 or val < 1491
+        continue
 

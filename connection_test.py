@@ -33,21 +33,32 @@ vehicle.channels.overrides = {'5':None, '6':None,'3':0}
 #print(" Channel overrides: %s" % vehicle.channels.overrides) 
 
 
-fal.arm_and_takeoff(vehicle, 10)
-print("Set default/target airspeed to 10")
-vehicle.airspeed = 10
+def test_failsafe()
+	vehicle.add_attribute_listener("channel['5']", failsafe_callback)
 
-print("Going towards first point for 5 seconds ...")
-point1 = LocationGlobalRelative(30.384754, -97.730244, 10)
-fal.simple_gotoloc(vehicle, point1,5)
+	test_flight()
+	
 
-print("Going to the second point for 5 seconds ...")
-point2 = LocationGlobalRelative(30.384462, -97.730701, 10)
-fal.simple_gotoloc(vehicle, point2,5)
+def test_flight()
+	fal.arm_and_takeoff(vehicle, 10)
+	print("Set default/target airspeed to 10")
+	vehicle.airspeed = 10
 
-print("Returning to Launch")
-vehicle.mode = VehicleMode("RTL")
+	print("Going towards first point for 5 seconds ...")
+	point1 = LocationGlobalRelative(30.384754, -97.730244, 10)
+	fal.simple_gotoloc(vehicle, point1,5)
 
-#Close vehicle object before exiting script
-#print("\nClose vehicle object")
-vehicle.close()
+	print("Going to the second point for 5 seconds ...")
+	point2 = LocationGlobalRelative(30.384462, -97.730701, 10)
+	fal.simple_gotoloc(vehicle, point2,5)
+
+	print("Returning to Launch")
+	vehicle.mode = VehicleMode("RTL")
+
+	#Close vehicle object before exiting script
+	#print("\nClose vehicle object")
+	vehicle.close()
+
+if__name__== "__main__"
+	test_failsafe()
+
