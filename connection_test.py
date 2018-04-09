@@ -13,7 +13,7 @@ from pymavlink import mavutil
 #print('Connecting to vehicle on: %s' % connection_string)
 
 vehicle = connect('/dev/serial/by-id/usb-3D_Robotics_PX4_FMU_v2.x_0-if00', wait_ready=True)
-vehicle.channels.overrides = {'5':None, '6':None,'3':0}
+#vehicle.channels.overrides = {'5':None, '6':None,'3':0}
 #print "Armed: %s" % vehicle.armed
 
 ##vehicle.armed = True
@@ -34,13 +34,13 @@ vehicle.channels.overrides = {'5':None, '6':None,'3':0}
 
 
 
-def test_failsafe()
+def test_failsafe():
 	vehicle.add_attribute_listener("channel['5']", failsafe_callback)
 
 	test_flight()
 	
 
-def test_flight()
+def test_flight():
 	fal.arm_and_takeoff(vehicle, 10)
 	print("Set default/target airspeed to 10")
 	vehicle.airspeed = 10
@@ -60,6 +60,6 @@ def test_flight()
 	#print("\nClose vehicle object")
 	vehicle.close()
 
-if__name__== "__main__"
+if __name__== "__main__":
 	test_failsafe()
 
