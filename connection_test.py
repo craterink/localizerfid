@@ -32,8 +32,6 @@ vehicle = connect('/dev/serial/by-id/usb-3D_Robotics_PX4_FMU_v2.x_0-if00', wait_
 ##vehicle.channels.overrides = {'5':None, '6':None,'3':0}
 #print(" Channel overrides: %s" % vehicle.channels.overrides) 
 
-
-
 def test_failsafe():
 	vehicle.add_attribute_listener("channel['5']", failsafe_callback)
 
