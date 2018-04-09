@@ -14,31 +14,7 @@ from pymavlink import mavutil # Needed for command message definitions
 import time
 import math
 
-
-#Set up option parsing to get connection string
-import argparse  
-parser = argparse.ArgumentParser(description='Control Copter and send commands in GUIDED mode ')
-parser.add_argument('--connect', 
-                   help="Vehicle connection target string. If not specified, SITL automatically started and used.")
-args = parser.parse_args()
-
-connection_string = args.connect
-sitl = None
-
-
-#Start SITL if no connection string specified
-if not connection_string:
-    import dronekit_sitl
-    sitl = dronekit_sitl.start_default()
-    connection_string = sitl.connection_string()
-
-
-# Connect to the Vehicle
-print('Connecting to vehicle on: %s' % connection_string)
-vehicle = connect(connection_string, wait_ready=True)
-
-
-def arm_and_takeoff(aTargetAltitude):
+def arm_and_takeoff(vehicle, aTargetAltitude):
     """
     Arms vehicle and fly to aTargetAltitude.
     """
@@ -72,10 +48,6 @@ def arm_and_takeoff(aTargetAltitude):
         time.sleep(1)
 
 
-#Arm and take of to altitude of 5 meters
-arm_and_takeoff(5)
-
-
 
 """
 Convenience functions for sending immediate/guided mode commands to control the Copter.
@@ -87,7 +59,7 @@ The full set of available commands are listed here:
 http://dev.ardupilot.com/wiki/copter-commands-in-guided-mode/
 """
 
-def condition_yaw(heading, relative=False):
+def condition_yaw(vehicle, heading, relative=False):
     """
     Send MAV_CMD_CONDITION_YAW message to point vehicle at a specified heading (in degrees).
     This method sets an absolute heading by default, but you can set the `relative` parameter
@@ -116,7 +88,7 @@ def condition_yaw(heading, relative=False):
     vehicle.send_mavlink(msg)
 
 
-def set_roi(location):
+def set_roi(vehicle, location):
     """
     Send MAV_CMD_DO_SET_ROI message to point camera gimbal at a 
     specified region of interest (LocationGlobal).
@@ -221,7 +193,7 @@ The methods include:
     This method reports distance to the destination.
 """
 
-def goto_position_target_global_int(aLocation):
+def goto_position_target_global_int(vehicle, aLocation):
     """
     Send SET_POSITION_TARGET_GLOBAL_INT command to request the vehicle fly to a specified LocationGlobal.
     For more information see: https://pixhawk.ethz.ch/mavlink/#SET_POSITION_TARGET_GLOBAL_INT
@@ -246,7 +218,7 @@ def goto_position_target_global_int(aLocation):
 
 
 
-def goto_position_target_local_ned(north, east, down):
+def goto_position_target_local_ned(vehicle, north, east, down):
     """ 
     Send SET_POSITION_TARGET_LOCAL_NED command to request the vehicle fly to a specified 
     location in the North, East, Down frame.
@@ -270,9 +242,30 @@ def goto_position_target_local_ned(north, east, down):
     # send command to vehicle
     vehicle.send_mavlink(msg)
 
+def simple_gotoloc(vehicle, loc, thresh):
+    """
+    Moves the vehicle to loc, using the standard method: dronekit.lib.Vehicle.simple_goto().
+    The method reports the distance to target every two seconds, and waits until the vehicle has arrived before returning.
+    """
+    
+    currentLocation = vehicle.location.global_relative_frame
+    targetLocation = loc
+    targetDistance = get_distance_metres(currentLocation, targetLocation)
+    vehicle.simple_goto(targetLocation)
+    
+    #print "DEBUG: targetLocation: %s" % targetLocation
+    #print "DEBUG: targetLocation: %s" % targetDistance
 
+    while vehicle.mode.name=="GUIDED": #Stop action if we are no longer in guided mode.
+        #print "DEBUG: mode: %s" % vehicle.mode.name
+        remainingDistance=get_distance_metres(vehicle.location.global_relative_frame, targetLocation)
+        print("Distance to target: ", remainingDistance)
+        if remainingDistance<=thresh: #Just below target, in case of undershoot.
+            print("Reached target")
+            break;
+        time.sleep(2)
 
-def goto(dNorth, dEast, gotoFunction=vehicle.simple_goto):
+def goto(vehicle, dNorth, dEast, gotoFunction=vehicle.simple_goto):
     """
     Moves the vehicle to a position dNorth metres North and dEast metres East of the current position.
     The method takes a function pointer argument with a single `dronekit.lib.LocationGlobal` parameter for 
@@ -310,7 +303,7 @@ The methods include:
 * send_global_velocity - Sets velocity components using SET_POSITION_TARGET_GLOBAL_INT command
 """
 
-def send_ned_velocity(velocity_x, velocity_y, velocity_z, duration):
+def send_ned_velocity(vehicle, velocity_x, velocity_y, velocity_z, duration):
     """
     Move vehicle in direction based on specified velocity vectors and
     for the specified duration.
@@ -344,7 +337,7 @@ def send_ned_velocity(velocity_x, velocity_y, velocity_z, duration):
     
 
 
-def send_global_velocity(velocity_x, velocity_y, velocity_z, duration):
+def send_global_velocity(vehicle, velocity_x, velocity_y, velocity_z, duration):
     """
     Move vehicle in direction based on specified velocity vectors.
     This uses the SET_POSITION_TARGET_GLOBAL_INT command with type mask enabling only 
