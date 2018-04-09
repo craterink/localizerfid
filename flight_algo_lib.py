@@ -379,5 +379,5 @@ def check_mode_failsafe(vehicle)
 
     val = vehicles.channel['5']
     while val > 1620 or val < 1491
-        send_ned_velocity(0, 0, 0, 1)
+        continue
 
