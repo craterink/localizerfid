@@ -374,10 +374,10 @@ def send_global_velocity(vehicle, velocity_x, velocity_y, velocity_z, duration):
         vehicle.send_mavlink(msg)
         time.sleep(1)    
 
-def check_mode_failsafe(vehicle)
+def failsafe_callback(self, attr_name, attribute_value)
     #checks if mode has been changed (lose control if so)
 
-    val = vehicles.channel['5']
+    val = self.channel['5']
     while val > 1620 or val < 1491
         continue
 
