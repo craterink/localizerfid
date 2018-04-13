@@ -1,0 +1,39 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+I2C_ADDR	pythslave.py	/^I2C_ADDR=112$/;"	v
+arm_and_takeoff	flight_algo_lib.py	/^def arm_and_takeoff(vehicle, aTargetAltitude):$/;"	f
+condition_yaw	flight_algo_lib.py	/^def condition_yaw(vehicle, heading, relative=False):$/;"	f
+connection_string	hello.py	/^connection_string = sitl.connection_string()$/;"	v
+data	rfidpyth.py	/^data='Idn\\r'.encode('utf-8')$/;"	v
+e	pythslave.py	/^e = pi.event_callback(pigpio.EVENT_BSC, i2c)$/;"	v
+f	launch.py	/^f=open("test.txt", "w+")$/;"	v
+failsafe_callback	flight_algo_lib.py	/^def failsafe_callback(self, attr_name, attribute_value):$/;"	f
+get_bearing	flight_algo_lib.py	/^def get_bearing(aLocation1, aLocation2):$/;"	f
+get_distance_3D_metres	flight_algo_lib.py	/^def get_distance_3D_metres(aLocation1, aLocation2, alt1, alt2):$/;"	f
+get_distance_metres	flight_algo_lib.py	/^def get_distance_metres(aLocation1, aLocation2):$/;"	f
+get_location_metres	flight_algo_lib.py	/^def get_location_metres(original_location, dNorth, dEast):$/;"	f
+goto	flight_algo_lib.py	/^def goto(vehicle, dNorth, dEast, gotoFunction, thresh):$/;"	f
+goto_position_target_global_int	flight_algo_lib.py	/^def goto_position_target_global_int(vehicle, aLocation):$/;"	f
+goto_position_target_local_ned	flight_algo_lib.py	/^def goto_position_target_local_ned(vehicle, north, east, down, thresh):$/;"	f
+i	rfidpyth.py	/^i=ser.in_waiting$/;"	v
+i2c	pythslave.py	/^def i2c(id, tick):$/;"	f
+out	rfidpyth.py	/^out = ser.read(i)$/;"	v
+pi	pythslave.py	/^pi = pigpio.pi()$/;"	v
+point1	flight4.9.py	/^point1 = LocationGlobalRelative(30.384649, -97.730926, 5)$/;"	v
+point2	flight4.9.py	/^point2 = LocationGlobalRelative(30.384462, -97.730701, 10)$/;"	v
+send_global_velocity	flight_algo_lib.py	/^def send_global_velocity(vehicle, velocity_x, velocity_y, velocity_z, duration):$/;"	f
+send_ned_velocity	flight_algo_lib.py	/^def send_ned_velocity(vehicle, velocity_x, velocity_y, velocity_z, duration):$/;"	f
+ser	rfidpyth.py	/^ser = serial.Serial()$/;"	v
+set_roi	flight_algo_lib.py	/^def set_roi(vehicle, location):$/;"	f
+simple_gotoloc	flight_algo_lib.py	/^def simple_gotoloc(vehicle, loc, thresh):$/;"	f
+sitl	hello.py	/^sitl = dronekit_sitl.start_default()$/;"	v
+test_failsafe	connection_test.py	/^def test_failsafe():$/;"	f
+test_flight	connection_test.py	/^def test_flight():$/;"	f
+vehicle	connection_test.py	/^vehicle = connect('\/dev\/serial\/by-id\/usb-3D_Robotics_PX4_FMU_v2.x_0-if00', wait_ready=True)$/;"	v
+vehicle	flight4.9.py	/^vehicle = connect('\/dev\/serial\/by-id\/usb-3D_Robotics_PX4_FMU_v2.x_0-if00', wait_ready=True)$/;"	v
+vehicle	hello.py	/^vehicle = connect(connection_string, wait_ready=True)$/;"	v
+vehicle	testNED.py	/^vehicle = connect('\/dev\/serial\/by-id\/usb-3D_Robotics_PX4_FMU_v2.x_0-if00', wait_ready=True)$/;"	v

@@ -1,0 +1,5 @@
+set moddebug 2
+set requireexit true
+arm safetyoff
+exit
+

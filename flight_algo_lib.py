@@ -163,6 +163,15 @@ def get_distance_metres(aLocation1, aLocation2):
     return math.sqrt((dlat*dlat) + (dlong*dlong)) * 1.113195e5
 
 
+def get_distance_3D_metres(aLocation1, aLocation2, alt1, alt2):
+    """
+    Returns absolute distance between two locations, using get_distance_metres
+    """
+    ground_dist = get_distance_metres(aLocation1, aLocation2)
+    height_dist = alt2-alt1
+    return math.sqrt((ground_dist*ground_dist) + (height_dist*height_dist))
+
+
 def get_bearing(aLocation1, aLocation2):
     """
     Returns the bearing between the two LocationGlobal objects passed as parameters.
@@ -217,7 +226,7 @@ def goto_position_target_global_int(vehicle, aLocation):
 
 
 
-def goto_position_target_local_ned(vehicle, north, east, down):
+def goto_position_target_local_ned(vehicle, north, east, down, thresh):
     """ 
     Send SET_POSITION_TARGET_LOCAL_NED command to request the vehicle fly to a specified 
     location in the North, East, Down frame.
@@ -240,6 +249,16 @@ def goto_position_target_local_ned(vehicle, north, east, down):
         0, 0)    # yaw, yaw_rate (not supported yet, ignored in GCS_Mavlink) 
     # send command to vehicle
     vehicle.send_mavlink(msg)
+    
+    #ADDING THRESHOLD CAPABILITY
+    while vehicle.mode.name=="GUIDED": #Stop action if we are no longer in guided mode.
+        #print "DEBUG: mode: %s" % vehicle.mode.name
+        remainingDistance=get_distance_3D_metres(vehicle.location.global_relative_frame, targetLocation, vehicle.location.global_relative_frame.alt, vehicle.location.global_relative_frame.alt - down)
+        if remainingDistance<=thresh: #Just below target, in case of undershoot.
+            print("Reached target")
+            break;
+        time.sleep(2)
+
 
 def simple_gotoloc(vehicle, loc, thresh):
     """
@@ -264,7 +283,9 @@ def simple_gotoloc(vehicle, loc, thresh):
             break;
         time.sleep(2)
 
-def goto(vehicle, dNorth, dEast, gotoFunction):
+
+
+def goto(vehicle, dNorth, dEast, gotoFunction, thresh):
     """
     Moves the vehicle to a position dNorth metres North and dEast metres East of the current position.
     The method takes a function pointer argument with a single `dronekit.lib.LocationGlobal` parameter for 
@@ -287,11 +308,10 @@ def goto(vehicle, dNorth, dEast, gotoFunction):
         #print "DEBUG: mode: %s" % vehicle.mode.name
         remainingDistance=get_distance_metres(vehicle.location.global_relative_frame, targetLocation)
         print("Distance to target: ", remainingDistance)
-        if remainingDistance<=targetDistance*0.01: #Just below target, in case of undershoot.
+        if remainingDistance<=thresh: #Just below target, in case of undershoot.
             print("Reached target")
             break;
         time.sleep(2)
-
 
 
 """
