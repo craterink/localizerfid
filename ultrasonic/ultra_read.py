@@ -76,7 +76,7 @@ init_ultrasonic()
 ser = serial.Serial(
           
    port='/dev/ttyAMA0',
-   baudrate = 9600,
+   baudrate = 115200,
    parity=serial.PARITY_NONE,
    stopbits=serial.STOPBITS_ONE,
    bytesize=serial.EIGHTBITS,
@@ -110,5 +110,4 @@ while(1):
     sendStr = convToSendStr(hiVal)
     print sendStr
     ser.write(sendStr)
-    time.sleep(.2)
 
